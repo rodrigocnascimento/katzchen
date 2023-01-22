@@ -1,3 +1,12 @@
+import { StatusBar } from "expo-status-bar";
+
 import Router from "./routes";
 
-export default () => <Router />;
+import AppProvider from "./context";
+
+export default () => (
+  <AppProvider>
+    <Router />
+    <StatusBar style="auto" />
+  </AppProvider>
+);
