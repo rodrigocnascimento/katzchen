@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import * as WebBrowser from "expo-web-browser";
 import {
   useAuthRequest,
@@ -9,12 +9,12 @@ import {
   AccessTokenRequestConfig,
 } from "expo-auth-session";
 import { Button, Alert } from "react-native";
-import { AuthContext } from "./auth.context";
+import { AuthContext } from "../context/user/auth.context";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const clientId = "";
-const userPoolUrl = "";
+const clientId = "6sf63mvvbln2frrhoj0p0i9omm";
+const userPoolUrl = "https://katzchen.auth.us-east-1.amazoncognito.com";
 const redirectUri = makeRedirectUri();
 
 export default function AWSCognitoLogin() {
@@ -99,7 +99,7 @@ export default function AWSCognitoLogin() {
     );
   };
 
-  return auth.isLogged ? (
+  return auth.isAuthenticated ? (
     <Button title="Logout" onPress={() => logout()} />
   ) : (
     <>

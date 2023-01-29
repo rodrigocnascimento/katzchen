@@ -1,23 +1,17 @@
-import React, { createContext, useMemo, useEffect, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AWSCognitoFlow from "./AWSCognitoFlow";
 
 type User = {
   isAuthenticated: boolean;
   logInUser: any;
   logOutUser: any;
   getUserTokens: any;
-  managedAuthProviderApplicationFlow: any;
 } | null;
 
 const AuthContext = createContext<User>(null);
 
 function AuthProvider({ children }: any) {
   const [isAuthenticated, setLogged] = useState<boolean>(false);
-
-  const managedAuthProviderApplicationFlow = () => {
-    return <AWSCognitoFlow />;
-  };
 
   const logInUser = async (exchangeToken: any) => {
     setLogged(true);
@@ -43,7 +37,6 @@ function AuthProvider({ children }: any) {
       logInUser,
       logOutUser,
       getUserTokens,
-      managedAuthProviderApplicationFlow,
     }),
     [isAuthenticated]
   );
