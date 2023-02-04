@@ -1,29 +1,34 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import SettingsScreen from "../screens/Settings";
+import MyPetsScreen from "../screens/MyPets";
+import { RouteProp, ParamListBase } from "@react-navigation/native";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const TabIcon = {
   Settings: {
-    icon: (focused: boolean) => (focused ? "settings" : "settings-outline"),
+    icon: "cog",
+  },
+  MyPets: {
+    icon: "paw",
   },
 };
 
-const TabBarIcon = (route: any, { focused, color, size }: any) => {
+const TabBarIcon = (
+  route: RouteProp<ParamListBase, string>,
+  { color, size }: any
+) => {
   const routeIcon = TabIcon[route.name as keyof typeof TabIcon];
 
   if (!routeIcon) throw new Error("Inexistent Tab Route!");
 
-  const iconName = routeIcon.icon(focused);
-
-  return <Ionicons name={iconName} size={size} color={color} />;
+  return <FontAwesome5 name={routeIcon.icon} size={size} color={color} />;
 };
 
 const tabScreenOptions = ({ route }: any) => ({
-  tabBarIcon: ({ focused, color, size }: any) =>
-    TabBarIcon(route, { focused, color, size }),
+  tabBarIcon: ({ color, size }: any) => TabBarIcon(route, { color, size }),
   tabBarActiveTintColor: "#2f93b8",
   tabBarInactiveTintColor: "#8bb4c4",
   headerShown: false,
@@ -32,6 +37,7 @@ const tabScreenOptions = ({ route }: any) => ({
 export default function UserLogged() {
   return (
     <Navigator screenOptions={tabScreenOptions}>
+      <Screen name="MyPets" component={MyPetsScreen} />
       <Screen name="Settings" component={SettingsScreen} />
     </Navigator>
   );
