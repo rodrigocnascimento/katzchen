@@ -1,4 +1,3 @@
-import { useField } from "@unform/core";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, TextInput } from "react-native";
 import {
@@ -10,25 +9,23 @@ import {
 
 import { IInputIcon } from "../helpers/icon.creator";
 
-interface IInputText extends TextInput {
-  value: string;
-}
-
 interface InputProps {
   name: string;
   type?: string;
   label?: string;
   placeholder?: string;
-  onChangeText?: (text: string) => void;
   icon: IInputIcon;
+  onChangeText?: (text: string) => void;
+  validationErrors?: any;
 }
 
 const Input = ({
   name,
   type,
-  onChangeText,
   label,
   icon,
+  onChangeText,
+  validationErrors,
   ...inputProps
 }: InputProps) => {
   let {
@@ -38,49 +35,16 @@ const Input = ({
     provider: IconProvider,
   } = icon;
 
-  const inputRef = useRef<IInputText>(null);
   const [inputDirty, setInputDirty] = useState(false);
 
-  const { fieldName, registerField, defaultValue, error } = useField(name);
-
-  if (error) {
+  if (validationErrors) {
     iconName = "exclamation-triangle";
     iconColor = "orange";
   }
 
-  useEffect(() => {
-    if (inputRef.current) inputRef.current.value = defaultValue;
-  }, [defaultValue]);
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      getValue() {
-        if (inputRef.current) return inputRef.current.value;
-        return "";
-      },
-      setValue(ref, value) {
-        if (inputRef.current) {
-          inputRef.current.setNativeProps({ text: value });
-          inputRef.current.value = value;
-        }
-      },
-      clearValue() {
-        if (inputRef.current) {
-          inputRef.current.setNativeProps({ text: "" });
-          inputRef.current.value = "";
-        }
-      },
-    });
-  }, [fieldName, registerField]);
-
   const handleChangeText = useCallback(
     (text: string) => {
-      setInputDirty(true);
-
-      if (inputRef.current) inputRef.current.value = text;
-      if (onChangeText) onChangeText(text);
+      setInputDirty(!!text);
     },
     [onChangeText]
   );
@@ -92,7 +56,6 @@ const Input = ({
    * it's validation
    */
   const handleClearInput = () => {
-    inputRef.current?.clear();
     setInputDirty(false);
   };
 
@@ -104,8 +67,6 @@ const Input = ({
           <IconProvider name={iconName} size={iconSize} color={iconColor} />
         )}
         <InputText
-          ref={inputRef}
-          defaultValue={defaultValue}
           secureTextEntry={type === "password"}
           onChangeText={handleChangeText}
           {...inputProps}
@@ -119,7 +80,9 @@ const Input = ({
           />
         )}
       </InputContainer>
-      {error && <InputErrorLabel>{error}</InputErrorLabel>}
+      {validationErrors && (
+        <InputErrorLabel>{JSON.stringify(validationErrors)}</InputErrorLabel>
+      )}
     </View>
   );
 };

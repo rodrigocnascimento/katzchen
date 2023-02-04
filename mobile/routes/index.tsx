@@ -12,7 +12,8 @@ export default () => {
 
   return (
     <NavigationContainer>
-      {user.isAuthenticated ? <UserLogged /> : <UserNotLogged />}
+      <UserLogged />
+      {/* {user.isAuthenticated ? <UserLogged /> : <UserNotLogged />} */}
     </NavigationContainer>
   );
 };

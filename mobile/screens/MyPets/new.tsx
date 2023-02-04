@@ -3,7 +3,6 @@ import React, { useCallback } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import Input from "../../components/Input";
-import Form from "../../components/Form";
 
 import { ScreenContainer } from "../screens.styled";
 
@@ -15,7 +14,6 @@ import { RegisterNewPet } from "./validation";
 
 import CatsRaces from "../../services/cats.race";
 import { ScrollView, View } from "react-native";
-import SelectPicker from "../../components/Picker";
 
 export default () => {
   const icon = useCallback(
@@ -27,29 +25,18 @@ export default () => {
     <ScrollView>
       <ScreenContainer>
         <HeroText>Vamos registrar os dados do seu miau!</HeroText>
-        <Form schemaValidation={RegisterNewPet} submitButtonTitle="Enviar!">
+        <View>
           <Input name={"name"} placeholder={"Nome"} icon={icon("cat")} />
           {
             // TODO improve this approach to create a roudend border on the SelectPicker
           }
-          <PickerView>
-            {iconCreator(FontAwesome5, "cat", 32).getIcon({
-              padding: 10,
-            })}
-            <SelectPicker
-              inputName="race"
-              inputPlaceholder="Selecione a raça"
-              options={CatsRaces}
-              style={{ flex: 1 }}
-            />
-          </PickerView>
           <Input name={"genre"} placeholder={"Gênero"} icon={icon("paw")} />
           <Input
             name={"bithdate"}
             placeholder={"Data de Nascimento"}
             icon={icon("calendar")}
           />
-        </Form>
+        </View>
       </ScreenContainer>
     </ScrollView>
   );
