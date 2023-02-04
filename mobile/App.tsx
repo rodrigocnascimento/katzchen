@@ -4,7 +4,7 @@ import Router from "./routes";
 
 import AppProvider from "./context";
 
-export default () => (
+export default (): React.ReactElement => (
   <AppProvider>
     <Router />
     <StatusBar style="auto" />
