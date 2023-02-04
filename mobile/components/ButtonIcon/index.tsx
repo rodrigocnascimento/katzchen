@@ -1,32 +1,72 @@
-import { TouchableOpacity, Text } from "react-native";
+import { GestureResponderEvent } from "react-native";
 import styled from "styled-components/native";
 
-const Button = styled(TouchableOpacity)`
-  width: 130px;
+import { IInputIcon } from "../helpers/icon.creator";
+
+const Button = styled.TouchableOpacity.attrs(
+  (props: { rounded: boolean }) => props
+)`
+  width: ${(props) => (props.rounded ? "48px" : "130px")};
   elevation: 5;
-  border-radius: 10px;
+  border-radius: ${(props) => (props.rounded ? "64px" : "10px")};
   padding-vertical: 10px;
   padding-horizontal: 12px;
   background-color: #e76c27;
-  margin-right: 20px;
+  margin-right: 10px;
   flex-direction: row;
   align-items: center;
 `;
 
-const ButtonText = styled(Text)`
+const ButtonTitle = styled.Text.attrs((props: { color: string }) => props)`
   flex: 1;
   font-size: 18px;
-  color: #fff;
+  color: ${(props) => props.color};
   font-weight: bold;
-  align-self: center;
-  float: left;
+  padding-left: 5px;
 `;
 
-const ButtonIcon = ({ title, onPress, icon }: any) => (
-  <Button onPress={onPress}>
-    {icon}
-    {title && <ButtonText> {title}</ButtonText>}
-  </Button>
-);
+type ButtonIconProps = {
+  title?: string;
+  color?: string;
+  rounded?: boolean;
+  onPress?: (event: GestureResponderEvent) => void | undefined;
+  icon: IInputIcon;
+};
+
+function ButtonText({ title, color }: { [i: string]: string | undefined }) {
+  if (!title) return <></>;
+
+  return <ButtonTitle color={color}>{title}</ButtonTitle>;
+}
+
+const ButtonIcon = ({
+  title,
+  color,
+  rounded,
+  onPress,
+  icon,
+}: ButtonIconProps) => {
+  const {
+    color: iconColor,
+    name: iconName,
+    size: iconSize,
+    provider: IconProvider,
+    position,
+  } = icon;
+
+  return (
+    <Button onPress={onPress} rounded={rounded}>
+      {position === "right" && (
+        <ButtonText title={title} color={color || iconColor} />
+      )}
+
+      <IconProvider name={iconName} size={iconSize} color={iconColor} />
+
+      {position === "left" && (
+        <ButtonText title={title} color={color || iconColor} />
+      )}
+    </Button>
+  );
+};
 
 export default ButtonIcon;
