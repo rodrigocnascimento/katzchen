@@ -14,6 +14,8 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button, ScrollView, View } from "react-native";
+import SelectPicker from "../../components/Picker";
+import CatsRaces from "../../services/cats.race";
 
 export default () => {
   const icon = useCallback(
@@ -36,17 +38,31 @@ export default () => {
         <View>
           <Controller
             control={control}
-            render={({ field: { value, name }, fieldState }) => (
+            render={({ field: { name }, fieldState }) => (
               <Input
-                name={name}
                 placeholder={"Nome"}
                 icon={icon("cat")}
+                name={name}
                 fieldState={fieldState}
-                value={value}
                 onChangeText={(v) => setValue(name, v)}
               />
             )}
             name="name"
+          />
+
+          <Controller
+            control={control}
+            render={({ field: { value, name }, fieldState }) => (
+              <SelectPicker
+                inputPlaceholder="Selecione a raça"
+                inputName={name}
+                selectedValue={value}
+                options={CatsRaces}
+                fieldState={fieldState}
+                onValueChange={(v: any) => setValue(name, v)}
+              />
+            )}
+            name="race"
           />
 
           <Button onPress={handleSubmit(onSubmit)} title="Submit!" />

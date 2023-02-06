@@ -8,7 +8,7 @@ export interface RegisterNewPetFormSchema {
 
 const registerNewPetSchema = object().shape({
     name: string().required("Esse é necessário (name)"),
-    email: string().email("email inválido").required("email obrigatorio"),
+    race: string().required("Raça é obrigatório!"),
 });
 
 export {
