@@ -11,7 +11,7 @@ import { Header, HeaderTitle, HeaderButtons, ScreenContainer } from "./styled";
 const icon = (name: string) => iconCreator(FontAwesome5, name, 24, "#fff");
 
 export default () => {
-  const [screen, setScreen] = useState("");
+  const [screen, setScreen] = useState("create");
 
   return (
     <ScreenContainer>

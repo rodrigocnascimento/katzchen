@@ -1,4 +1,4 @@
-import { object, string } from 'yup';
+import { object, ref, string } from 'yup';
 
 export interface RegisterNewPetFormSchema {
     name?: string;
@@ -6,11 +6,11 @@ export interface RegisterNewPetFormSchema {
     password: string;
 }
 
-const RegisterNewPet = object().shape({
-    name: string().required("Esse é necessário"),
-    race: string().required("Esse é necessário também hein!")
+const registerNewPetSchema = object().shape({
+    name: string().required("Esse é necessário (name)"),
+    email: string().email("email inválido").required("email obrigatorio"),
 });
 
 export {
-    RegisterNewPet
+    registerNewPetSchema
 }
