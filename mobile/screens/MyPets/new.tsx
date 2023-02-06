@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button, ScrollView, View } from "react-native";
-import SelectPicker from "../../components/Picker";
+import SelectList from "../../components/SelectList";
 import CatsRaces from "../../services/cats.race";
 
 export default () => {
@@ -53,9 +53,9 @@ export default () => {
           <Controller
             control={control}
             render={({ field: { value, name }, fieldState }) => (
-              <SelectPicker
-                inputPlaceholder="Selecione a raça"
+              <SelectList
                 inputName={name}
+                icon={iconCreator(FontAwesome5, "cat", 32)}
                 selectedValue={value}
                 options={CatsRaces}
                 fieldState={fieldState}

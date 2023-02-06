@@ -1,5 +1,6 @@
 const CatsRaces = [
-  { value: "srd", label: "sem Raça Definida" },
+  { value: "", label: "Selecione uma Raça" },
+  { value: "srd", label: "Sem Raça Definida" },
   { value: "abissinio", label: "Abissínio" },
   { value: "angora_turco", label: "Angorá turco" },
   { value: "asiatico_de_pelo_semi_long", label: "Asiático de Pelo Semi-Longo" },

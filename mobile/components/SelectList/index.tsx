@@ -1,15 +1,15 @@
 import React from "react";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Picker, PickerProps } from "@react-native-picker/picker";
 
 import styled from "styled-components";
-import { iconCreator } from "../../components/helpers/icon.creator";
+import { IInputIcon } from "../../components/helpers/icon.creator";
 import { InputErrorLabel } from "../Input/styled";
 import { PickerView } from "../../screens/MyPets/styled";
 import { View } from "react-native";
 
-export const InputPicker = styled(Picker)`
+export const SelectPicker = styled(Picker)`
   padding: 10px;
   margin-left: 3px;
   font-size: 18px;
@@ -19,21 +19,54 @@ interface SelectPickerProps extends Omit<PickerProps, "onValueChange"> {
   inputPlaceholder?: string;
   inputName: string;
   fieldState: any;
-  onValueChange: any;
-  selectedValue: any;
+  onValueChange: (itemValue: unknown, itemIndex: number) => void;
+  selectedValue: string | number | undefined;
+  icon?: IInputIcon;
   options: {
     value: string | number;
     label: string;
   }[];
 }
 
-const SelectPicker = ({
+function InputIcon({ icon, invalid }: Record<string, any>) {
+  let {
+    color: iconColor = "#000",
+    name: iconName,
+    size: iconSize = 32,
+    provider: IconProvider,
+  } = icon || {
+    provider: Ionicons,
+  };
+
+  console.log({ icon });
+
+  if (invalid && !icon) {
+    iconName = "warning";
+    iconColor = "orange";
+  } else if (invalid && icon) {
+    iconName = "exclamation-triangle";
+    iconColor = "orange";
+    iconSize = 24;
+  }
+
+  return (
+    <IconProvider
+      name={iconName}
+      size={iconSize}
+      color={iconColor}
+      style={{ padding: 10 }}
+    />
+  );
+}
+
+const SelectList = ({
   inputName,
   inputPlaceholder,
   options,
   fieldState,
   onValueChange,
   selectedValue,
+  icon,
   ...rest
 }: SelectPickerProps) => {
   const { invalid, error } = fieldState;
@@ -41,19 +74,16 @@ const SelectPicker = ({
   return (
     <View>
       <PickerView>
-        {iconCreator(FontAwesome5, "cat", 32).getIcon({
-          padding: 10,
-        })}
-        <InputPicker
+        <InputIcon icon={icon} invalid={invalid} />
+        <SelectPicker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
           style={{ flex: 1 }}
           {...rest}
         >
-          <Picker.Item
-            style={{ fontSize: 22 }}
-            label={inputPlaceholder || "Selecione uma opção"}
-          />
+          {inputPlaceholder && (
+            <Picker.Item style={{ fontSize: 22 }} label={inputPlaceholder} />
+          )}
           {options.map((option, i) => (
             <Picker.Item
               style={{ fontSize: 22 }}
@@ -62,11 +92,11 @@ const SelectPicker = ({
               label={option.label}
             />
           ))}
-        </InputPicker>
+        </SelectPicker>
       </PickerView>
       {invalid && <InputErrorLabel>{error.message}</InputErrorLabel>}
     </View>
   );
 };
 
-export default SelectPicker;
+export default SelectList;
