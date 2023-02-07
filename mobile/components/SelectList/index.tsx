@@ -57,7 +57,7 @@ function InputIcon({ icon, invalid }: Record<string, any>) {
   );
 }
 
-const SelectList = ({
+export default function SelectList({
   inputName,
   inputPlaceholder,
   options,
@@ -66,7 +66,7 @@ const SelectList = ({
   selectedValue,
   icon,
   ...rest
-}: SelectPickerProps) => {
+}: SelectPickerProps) {
   const { invalid, error } = fieldState;
 
   return (
@@ -95,6 +95,4 @@ const SelectList = ({
       {invalid && <InputErrorLabel>{error.message}</InputErrorLabel>}
     </View>
   );
-};
-
-export default SelectList;
+}
