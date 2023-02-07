@@ -52,7 +52,8 @@ const DatePicker = ({
   };
 
   //BUG the timezone is UTC, so it's getting 3h ahead NEED to fix that
-  const formatedDate = /([0-9]{4})-([\d]{2})-([\d]{2})/.exec(
+  // disable by now
+  const formatedDate = /([\d]{4})-([\d]{2})-([\d]{2})/.exec(
     date?.toISOString() || ""
   );
 
