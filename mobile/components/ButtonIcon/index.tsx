@@ -17,9 +17,11 @@ const Button = styled.TouchableOpacity.attrs(
   align-items: center;
 `;
 
-const ButtonTitle = styled.Text.attrs((props: { color: string }) => props)`
+const ButtonTitle = styled.Text.attrs(
+  (props: { color: string; fontSize: string }) => props
+)`
   flex: 1;
-  font-size: 18px;
+  font-size: ${(props) => (props.fontSize ? props.fontSize : "18px")};
   color: ${(props) => props.color};
   font-weight: bold;
   padding-left: 5px;
@@ -29,14 +31,25 @@ type ButtonIconProps = {
   title?: string;
   color?: string;
   rounded?: boolean;
-  onPress?: (event: GestureResponderEvent) => void | undefined;
+  fontSize: any;
+  onPress?: (event: GestureResponderEvent) => Promise<void> | void | undefined;
   icon: IInputIcon;
 };
 
-function ButtonText({ title, color }: { [i: string]: string | undefined }) {
+function ButtonText({
+  title,
+  color,
+  fontSize,
+}: {
+  [i: string]: string | undefined;
+}) {
   if (!title) return <></>;
 
-  return <ButtonTitle color={color}>{title}</ButtonTitle>;
+  return (
+    <ButtonTitle color={color} fontSize={fontSize}>
+      {title}
+    </ButtonTitle>
+  );
 }
 
 const ButtonIcon = ({
@@ -44,6 +57,7 @@ const ButtonIcon = ({
   color,
   rounded,
   onPress,
+  fontSize,
   icon,
 }: ButtonIconProps) => {
   const {
@@ -57,13 +71,21 @@ const ButtonIcon = ({
   return (
     <Button onPress={onPress} rounded={rounded}>
       {position === "right" && (
-        <ButtonText title={title} color={color || iconColor} />
+        <ButtonText
+          title={title}
+          fontSize={fontSize}
+          color={color || iconColor}
+        />
       )}
 
       <IconProvider name={iconName} size={iconSize} color={iconColor} />
 
       {position === "left" && (
-        <ButtonText title={title} color={color || iconColor} />
+        <ButtonText
+          title={title}
+          fontSize={fontSize}
+          color={color || iconColor}
+        />
       )}
     </Button>
   );

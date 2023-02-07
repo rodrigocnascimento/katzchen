@@ -18,6 +18,7 @@ import SelectList from "../../components/SelectList";
 import CatsRaces from "../../services/cats.race";
 import DatePicker from "../../components/DatePicker";
 import RadioButton from "../../components/RadioButton";
+import ImageInput from "../../components/ImageInput";
 
 export default () => {
   const icon = useCallback(
@@ -38,6 +39,19 @@ export default () => {
       <ScreenContainer>
         <HeroText>Vamos registrar os dados do seu miau!</HeroText>
         <View>
+          <Controller
+            control={control}
+            render={({ field: { name }, fieldState }) => {
+              return (
+                <ImageInput
+                  fieldState={fieldState}
+                  inputName={name}
+                  onUpload={(uri: string) => setValue(name, uri)}
+                />
+              );
+            }}
+            name="photo"
+          />
           <Controller
             control={control}
             render={({ field: { name }, fieldState }) => {
