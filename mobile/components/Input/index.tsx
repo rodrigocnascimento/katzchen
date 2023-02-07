@@ -11,14 +11,14 @@ import { IInputIcon } from "../helpers/icon.creator";
 import { Ionicons } from "@expo/vector-icons";
 
 interface InputProps {
-  name?: string;
+  inputName?: string;
   type?: string;
   label?: string;
   placeholder?: string;
   icon?: IInputIcon;
   value?: any;
   onChangeText?: (text: string) => void;
-  fieldState?: any;
+  fieldState: any;
 }
 
 function InputIcon({ icon, invalid }: Record<string, any>) {
@@ -44,7 +44,7 @@ function InputIcon({ icon, invalid }: Record<string, any>) {
 }
 
 const Input = ({
-  name,
+  inputName,
   type,
   label,
   icon,
@@ -63,6 +63,7 @@ const Input = ({
         <InputText
           secureTextEntry={type === "password"}
           onChangeText={onChangeText}
+          value={value}
           {...inputProps}
         />
       </InputContainer>

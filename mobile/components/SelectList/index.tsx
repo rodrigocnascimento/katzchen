@@ -38,8 +38,6 @@ function InputIcon({ icon, invalid }: Record<string, any>) {
     provider: Ionicons,
   };
 
-  console.log({ icon });
-
   if (invalid && !icon) {
     iconName = "warning";
     iconColor = "orange";

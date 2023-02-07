@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import Input from "../../components/Input";
@@ -16,6 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, ScrollView, View } from "react-native";
 import SelectList from "../../components/SelectList";
 import CatsRaces from "../../services/cats.race";
+import DatePicker from "../../components/DatePicker";
 
 export default () => {
   const icon = useCallback(
@@ -38,11 +39,24 @@ export default () => {
         <View>
           <Controller
             control={control}
+            render={({ field: { name }, fieldState }) => {
+              return (
+                <DatePicker
+                  fieldState={fieldState}
+                  inputName={name}
+                  onValueChange={(value: any) => setValue(name, value)}
+                />
+              );
+            }}
+            name="dob"
+          />
+          <Controller
+            control={control}
             render={({ field: { name }, fieldState }) => (
               <Input
                 placeholder={"Nome"}
                 icon={icon("cat")}
-                name={name}
+                inputName={name}
                 fieldState={fieldState}
                 onChangeText={(v) => setValue(name, v)}
               />
