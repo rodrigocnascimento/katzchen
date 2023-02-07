@@ -45,15 +45,17 @@ export default function RadioButton({
   }
 
   return (
-    <InputContainer style={{ flexDirection: "row" }}>
-      {inputPlaceholder && <InputText>{inputPlaceholder}</InputText>}
-      <RadioGroup
-        layout="row"
-        radioButtons={radioButtons}
-        onPress={onPressRadioButton}
-        {...options}
-      />
+    <View>
+      <InputContainer style={{ flexDirection: "row" }}>
+        {inputPlaceholder && <InputText>{inputPlaceholder}</InputText>}
+        <RadioGroup
+          layout="row"
+          radioButtons={radioButtons}
+          onPress={onPressRadioButton}
+          {...options}
+        />
+      </InputContainer>
       {invalid && <InputErrorLabel>{error.message}</InputErrorLabel>}
-    </InputContainer>
+    </View>
   );
 }
