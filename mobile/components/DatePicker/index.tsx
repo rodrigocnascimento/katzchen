@@ -14,7 +14,6 @@ interface DatePickerProps {
   inputPlaceholder?: string;
   icon?: IInputIcon;
   onValueChange: (text: string | undefined) => void;
-  formatter?: RegExp;
   onChange?: (
     event: DateTimePickerEvent,
     selectedDate: Date | undefined
@@ -27,7 +26,6 @@ const DatePicker = ({
   inputPlaceholder,
   fieldState,
   icon,
-  formatter = /([\d]{4})-([\d]{2})-([\d]{2})/,
   onValueChange,
   ...rest
 }: DatePickerProps) => {
@@ -53,7 +51,9 @@ const DatePicker = ({
     }
   };
 
-  let [, year, month, day] = formatter.exec(date?.toISOString() || "")!;
+  let [, year, month, day] = /([\d]{4})-([\d]{2})-([\d]{2})/.exec(
+    date?.toISOString() || ""
+  )!;
 
   return (
     <View>
