@@ -51,9 +51,10 @@ const DatePicker = ({
     }
   };
 
-  let [, year, month, day] = /([\d]{4})-([\d]{2})-([\d]{2})/.exec(
+  //BUG the timezone is UTC, so it's getting 3h ahead NEED to fix that
+  const formatedDate = /([\d]{4})-([\d]{2})-([\d]{2})/.exec(
     date?.toISOString() || ""
-  )!;
+  );
 
   return (
     <View>
@@ -65,7 +66,11 @@ const DatePicker = ({
               inputName={inputName}
               fieldState={fieldState}
               icon={icon || iconCreator(FontAwesome5, "calendar", 32)}
-              value={`${day}/${month}/${year}`}
+              value={
+                (formatedDate?.length &&
+                  `${formatedDate[3]}/${formatedDate[2]}/${formatedDate[1]}`) ||
+                ""
+              }
             />
           </View>
         </TouchableOpacity>
