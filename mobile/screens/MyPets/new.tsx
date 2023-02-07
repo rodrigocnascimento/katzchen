@@ -17,7 +17,6 @@ import { Button, ScrollView, View } from "react-native";
 import SelectList from "../../components/SelectList";
 import CatsRaces from "../../services/cats.race";
 import DatePicker from "../../components/DatePicker";
-import Checkbox from "../../components/Checkbox";
 import RadioButton from "../../components/RadioButton";
 
 export default () => {
@@ -65,12 +64,12 @@ export default () => {
                   options={[
                     {
                       id: "1", // acts as primary key, should be unique and non-empty string
-                      label: "Option 1",
+                      label: "Sim",
                       value: "option1",
                     },
                     {
                       id: "2",
-                      label: "Option 2",
+                      label: "Não",
                       value: "option2",
                     },
                   ]}
