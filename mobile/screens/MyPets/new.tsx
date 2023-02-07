@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import Input from "../../components/Input";

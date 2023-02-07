@@ -31,7 +31,7 @@ type ButtonIconProps = {
   title?: string;
   color?: string;
   rounded?: boolean;
-  fontSize: any;
+  fontSize?: any;
   onPress?: (event: GestureResponderEvent) => Promise<void> | void | undefined;
   icon: IInputIcon;
 };

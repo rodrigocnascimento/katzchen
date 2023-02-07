@@ -1,4 +1,3 @@
-import { PickerProps } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 import { IInputIcon } from "../helpers/icon.creator";

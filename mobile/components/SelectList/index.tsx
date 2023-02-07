@@ -85,7 +85,7 @@ export default function SelectList({
           {options.map((option, i) => (
             <Picker.Item
               style={{ fontSize: 22 }}
-              key={i}
+              key={i++}
               value={option.value}
               label={option.label}
             />
