@@ -1,7 +1,7 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import ImageViewer from "./ImageViewer";
+
 import styled from "styled-components/native";
 import ButtonIcon from "../ButtonIcon";
 import { iconCreator } from "../helpers/icon.creator";
@@ -20,7 +20,35 @@ const FooterContainer = styled(View)`
   align-items: center;
 `;
 
-export default function ImageInput({ fieldState, inputName, onUpload }: any) {
+const ImageImage = styled(Image)`
+  width: 140px;
+  height: 140px;
+  margin-bottom: 15px;
+  border-radius: 280px;
+`;
+
+const defaultImagePlaceholder = require("./assets/katzchen.png");
+
+function ImageViewer({ selectedImage }: Record<string, string>) {
+  const imageSource =
+    selectedImage !== "" ? { uri: selectedImage } : defaultImagePlaceholder;
+
+  return <ImageImage source={imageSource} />;
+}
+
+type ImageInputProps = {
+  fieldState: any;
+  inputName?: string;
+  inputPlaceholder?: string;
+  onUpload: (uri: string) => void;
+};
+
+export default function ImageInput({
+  fieldState,
+  inputName,
+  inputPlaceholder,
+  onUpload,
+}: ImageInputProps) {
   const [selectedImage, setSelectedImage] = useState("");
 
   const { invalid, error } = fieldState;

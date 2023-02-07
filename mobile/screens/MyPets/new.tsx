@@ -46,7 +46,7 @@ export default () => {
                 <ImageInput
                   fieldState={fieldState}
                   inputName={name}
-                  onUpload={(uri: string) => setValue(name, uri)}
+                  onUpload={(value: string) => setValue(name, value)}
                 />
               );
             }}
@@ -111,10 +111,10 @@ export default () => {
             control={control}
             render={({ field: { value, name }, fieldState }) => (
               <SelectList
-                inputName={name}
                 icon={iconCreator(FontAwesome5, "cat", 32)}
                 selectedValue={value}
                 options={CatsRaces}
+                inputName={name}
                 fieldState={fieldState}
                 onValueChange={(v: any) => setValue(name, v)}
               />
