@@ -1,6 +1,6 @@
 import { Pet } from "../domain/pet.entity";
 
-export default class PetDto implements Pet {
+export default class PetVO implements Pet {
   id: number | string | undefined;
   name: string;
   dob?: Date;

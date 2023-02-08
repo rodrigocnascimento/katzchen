@@ -1,4 +1,4 @@
-import PetDto from "./pet.dto";
+import PetVO from "./pet.vo";
 import { Pet } from "../domain/pet.entity";
 import IPetRepository from "../domain/pet.repository";
 
@@ -20,7 +20,7 @@ export class PetRepositoryImpl implements IPetRepository {
 
     const _pet = await response.json();
 
-    return new PetDto(_pet);
+    return new PetVO(_pet);
   }
 
   async GetAllPets(): Promise<Pet[]> {
@@ -33,7 +33,7 @@ export class PetRepositoryImpl implements IPetRepository {
 
     const _pet = await response.json();
 
-    return _pet.map((p: PetDto) => new PetDto(p));
+    return _pet.map((p: PetVO) => new PetVO(p));
   }
 
   async GetPet(): Promise<Pet> {
@@ -46,6 +46,6 @@ export class PetRepositoryImpl implements IPetRepository {
 
     const _pet = await response.json();
 
-    return new PetDto(_pet);
+    return new PetVO(_pet);
   }
 }
