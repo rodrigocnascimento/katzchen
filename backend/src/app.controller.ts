@@ -1,12 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Get, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+type CreatePetDto = {
+  name: string;
+  dob?: Date;
+  photo?: string;
+  neutered?: boolean;
+  race?: string;
+  gender?: string;
+};
+
+@Controller('pets')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Post()
+  create(@Body() petDto: CreatePetDto): any {
+    return this.appService.create(petDto);
+  }
+
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getAll(): any {
+    return this.appService.getAll();
   }
 }
