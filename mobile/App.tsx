@@ -1,8 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 
-import Router from "./routes";
-
-import AppProvider from "./context";
+import AppProvider from "./ui/context";
+import Router from "./ui/routes";
 
 export default (): React.ReactElement => (
   <AppProvider>
