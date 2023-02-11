@@ -14,7 +14,7 @@ export const SelectPicker = styled(Picker)`
   font-size: 18px;
 `;
 
-interface SelectPickerProps extends Omit<PickerProps, "onValueChange"> {
+export interface SelectPickerProps extends Omit<PickerProps, "onValueChange"> {
   inputPlaceholder?: string;
   inputName: string;
   fieldState: any;
@@ -81,7 +81,10 @@ export default function SelectList({
           {inputPlaceholder && (
             <Picker.Item style={{ fontSize: 22 }} label={inputPlaceholder} />
           )}
-          {options.map((option, i) => (
+          {/* {!options && (
+            <Picker.Item style={{ fontSize: 22 }} label="Carregando..." />
+          )} */}
+          {options?.map((option, i) => (
             <Picker.Item
               style={{ fontSize: 22 }}
               key={i++}

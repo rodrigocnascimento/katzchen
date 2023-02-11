@@ -14,6 +14,13 @@ export default () => {
   return (
     <ScreenContainer>
       <Title>Setting Screen</Title>
+      <Text>
+        A special thanks to Icons 8{" "}
+        {/* <a href="https://icons8.com/illustrations/author/zD2oqC8lLBBA">
+          Illustration by Icons 8
+        </a>{" "}
+        from <a href="https://icons8.com/illustrations">Ouch!</a> */}
+      </Text>
       <AWSCognitoFlow />
     </ScreenContainer>
   );

@@ -7,8 +7,8 @@
       "~/ui/*": [
         "./ui/*"
       ],
-      "~/modules/*": [
-        "./modules/*"
+      "~/application/*": [
+        "./application/*"
       ],
       "~/components/*": [
         "./ui/components/*"

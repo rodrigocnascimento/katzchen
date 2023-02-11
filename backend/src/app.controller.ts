@@ -23,4 +23,9 @@ export class AppController {
   getAll(): any {
     return this.appService.getAll();
   }
+
+  @Get('/races')
+  getAllCatRaces(): any {
+    return this.appService.getAllCatsRaces();
+  }
 }

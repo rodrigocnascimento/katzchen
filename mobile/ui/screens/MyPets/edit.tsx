@@ -14,11 +14,11 @@ import Input from "~/components/Input";
 import RadioButton from "~/components/RadioButton";
 import SelectList from "~/components/SelectList";
 import { iconCreator } from "~/components/helpers/icon.creator";
-import { CreatePetUseCase } from "~/modules/petz/domain/usecases/createpet.usecase";
+// import { CreatePetUseCase } from "~/modules/petz/domain/usecases/createpet.usecase";
 import CatsRaces from "~/ui/services/cats.race";
 
 type EditPetScreen = {
-  useCaseImpl: CreatePetUseCase;
+  useCaseImpl: any;
   defaultValues: any;
 };
 
