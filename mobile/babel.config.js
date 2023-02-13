@@ -11,7 +11,7 @@ module.exports = function (api) {
             "~/components": "./ui/components",
             "~/screens": "./ui/screens",
             "~/ui": "./ui",
-            "~/modules": "./modules",
+            "~/application": "./application",
           },
         },
       ],

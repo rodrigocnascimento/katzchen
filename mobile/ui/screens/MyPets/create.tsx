@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, ScrollView, View } from "react-native";
 
@@ -8,20 +8,28 @@ import { HeroText } from "./styled";
 import { registerNewPetSchema } from "./validation";
 import { ScreenContainer } from "../screens.styled";
 
+import { RacePetListDTO } from "~/application/domain/dto/PetDTO";
 import DatePicker from "~/components/DatePicker";
 import ImageInput from "~/components/ImageInput";
 import Input from "~/components/Input";
 import RadioButton from "~/components/RadioButton";
 import SelectList from "~/components/SelectList";
 import { iconCreator } from "~/components/helpers/icon.creator";
-import { CreatePetUseCase } from "~/modules/petz/domain/usecases/createpet.usecase";
-import CatsRaces from "~/ui/services/cats.race";
+import { IPresenters } from "~/ui/di/presenters";
 
-type CreatePetScreen = {
-  useCaseImpl: CreatePetUseCase;
-};
+export default ({ pet }: IPresenters) => {
+  const [catRaceList, setCatRaceList] = useState<RacePetListDTO[]>([]);
 
-export default ({ useCaseImpl }: CreatePetScreen) => {
+  const loadCatsRace = useCallback(async () => {
+    const petRaces = await pet.getAllPetRacesByGenre();
+
+    setCatRaceList(petRaces);
+  }, []);
+
+  useEffect(() => {
+    loadCatsRace().catch(console.error);
+  }, []);
+
   const icon = useCallback(
     (name: string) => iconCreator(FontAwesome5, name, 32),
     []
@@ -31,8 +39,16 @@ export default ({ useCaseImpl }: CreatePetScreen) => {
     resolver: yupResolver(registerNewPetSchema),
   });
 
+  // TODO resolver esse any :'(
   const onSubmit = async (formData: any) => {
-    const createPet = await useCaseImpl.CreatePet(formData);
+    const createPet = await pet.createPet(formData);
+    if (!createPet) {
+      alert("Não cadastrou :(");
+    }
+
+    alert("Cadastrou :)");
+
+    return createPet;
   };
 
   return (
@@ -114,7 +130,7 @@ export default ({ useCaseImpl }: CreatePetScreen) => {
               <SelectList
                 icon={iconCreator(FontAwesome5, "cat", 32)}
                 selectedValue={value}
-                options={CatsRaces}
+                options={catRaceList}
                 inputName={name}
                 fieldState={fieldState}
                 onValueChange={(v: any) => setValue(name, v)}

@@ -4,42 +4,51 @@ import styled from "styled-components";
 
 import { ScreenContainer } from "../screens.styled";
 
-import { Pet } from "~/modules/petz/domain/pet.entity";
-import { GetAllPetsUseCase } from "~/modules/petz/domain/usecases/getall.usecase";
 import ImageViewer from "~/ui/components/ImageViewer";
-
-type ListPetScreen = {
-  useCaseImpl: GetAllPetsUseCase;
-};
+import { IPresenters } from "~/ui/di/presenters";
 
 export const Card = styled(View)`
   flex-direction: row;
-  border: 1px solid orange;
   border-radius: 5px;
   margin-bottom: 5px;
-  padding: 3px;
+  padding: 5px;
   background-color: #ddf6ff;
 `;
 export const CardTitle = styled(Text)`
-  flex: 1;
-  font-size: 18px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #475053;
+  padding: 4px 0px 3px 14px;
 `;
+export const CardTSubitle = styled(Text)`
+  font-size: 18px;
+  color: #aaa;
+  padding: 0px 0px 14px 14px;
+`;
+
+const wait = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const PetCard = ({ data }: any) => {
   return (
     <Card>
-      <ImageViewer selectedImage={data.photo} />
-      <CardTitle>{data.name}</CardTitle>
-      <CardTitle>{data.gender}</CardTitle>
+      <View>
+        <ImageViewer selectedImage={data.photo} />
+      </View>
+
+      <View style={{ flex: 1 }}>
+        <CardTitle>{data.name}</CardTitle>
+        <CardTSubitle>{data.gender}</CardTSubitle>
+      </View>
     </Card>
   );
 };
 
-export default ({ useCaseImpl }: ListPetScreen) => {
-  const [petsList, setPetsList] = useState<Pet[]>();
+export default ({ pet }: IPresenters) => {
+  const [petsList, setPetsList] = useState<any[]>();
 
   const loadPets = useCallback(async () => {
-    const pets = await useCaseImpl.GetAllPets();
+    await wait(3000);
+    const pets = await pet.getAllPets();
 
     setPetsList(pets);
   }, []);
@@ -51,14 +60,14 @@ export default ({ useCaseImpl }: ListPetScreen) => {
   return (
     <ScrollView>
       <ScreenContainer>
-        {petsList?.map((pet) => {
-          return <PetCard key={`key-${pet.id}`} data={pet} />;
-        })}
-        {!!petsList && (
+        {!petsList && (
           <>
             <Text>Não tem Pets :(</Text>
           </>
         )}
+        {petsList?.map((pet) => {
+          return <PetCard key={`key-${pet.id}`} data={pet} />;
+        })}
       </ScreenContainer>
     </ScrollView>
   );
