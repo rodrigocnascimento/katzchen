@@ -2,6 +2,7 @@ import PetDTO, { CreatePetDTO, RacePetListDTO } from "../../domain/dto/PetDTO";
 import { Pet } from "../../domain/entities/Pet";
 import IPetRepository from "../../domain/repositories/Pet";
 import { IHttp, IHttpRequestOption } from "../infrastructures/Http";
+import GenericError from "../infrastructures/errors/generic.error";
 
 /**
  * Repository class
@@ -51,7 +52,7 @@ export class PetRepository implements IPetRepository {
    * @return {*}  {Promise<boolean>} returns true when the operation was succeded
    * @memberof PetRepository
    */
-  async createPet(pet: CreatePetDTO): Promise<boolean> {
+  async createPet(pet: CreatePetDTO): Promise<PetDTO> {
     const response = await this.http.request({
       ...this.defaultConfigs,
       url: this.baseUrl,
@@ -59,7 +60,7 @@ export class PetRepository implements IPetRepository {
       body: pet,
     });
 
-    return !!response;
+    return new PetDTO(response);
   }
 
   /**
@@ -69,12 +70,16 @@ export class PetRepository implements IPetRepository {
    * @memberof PetRepository
    */
   async getAllPets(): Promise<Pet[]> {
-    const response = await this.http.request({
-      ...this.defaultConfigs,
-      url: this.baseUrl,
-    });
+    try {
+      const response = await this.http.request({
+        ...this.defaultConfigs,
+        url: this.baseUrl,
+      });
 
-    return response.map((p: PetDTO) => new PetDTO(p));
+      return response.map((p: PetDTO) => new PetDTO(p));
+    } catch (error: any) {
+      throw new GenericError(error.message);
+    }
   }
 
   /**

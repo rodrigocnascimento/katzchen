@@ -44,12 +44,9 @@ class Http implements IHttp {
 
     if (requestOption?.body) option.body = JSON.stringify(requestOption.body);
 
-    try {
-      const res = await fetch(requestOption.url, option);
-      return await res.json();
-    } catch (e) {
-      return console.log(e);
-    }
+    const res = await fetch(requestOption.url, option);
+
+    return await res.json();
   }
 }
 

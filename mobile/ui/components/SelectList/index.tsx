@@ -81,9 +81,9 @@ export default function SelectList({
           {inputPlaceholder && (
             <Picker.Item style={{ fontSize: 22 }} label={inputPlaceholder} />
           )}
-          {/* {!options && (
+          {!options?.length && (
             <Picker.Item style={{ fontSize: 22 }} label="Carregando..." />
-          )} */}
+          )}
           {options?.map((option, i) => (
             <Picker.Item
               style={{ fontSize: 22 }}

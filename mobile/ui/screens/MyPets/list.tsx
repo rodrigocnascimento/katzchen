@@ -1,11 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { Text, View, ScrollView } from "react-native";
 import styled from "styled-components";
 
 import { ScreenContainer } from "../screens.styled";
 
+import { Pet } from "~/application/domain/entities/Pet";
+import ErrorMessage from "~/ui/components/Error";
 import ImageViewer from "~/ui/components/ImageViewer";
+import Loader from "~/ui/components/Loader";
 import { IPresenters } from "~/ui/di/presenters";
+import { useDataLoader } from "~/ui/hooks/data";
 
 export const Card = styled(View)`
   flex-direction: row;
@@ -26,8 +30,6 @@ export const CardTSubitle = styled(Text)`
   padding: 0px 0px 14px 14px;
 `;
 
-const wait = async (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 const PetCard = ({ data }: any) => {
   return (
     <Card>
@@ -44,30 +46,22 @@ const PetCard = ({ data }: any) => {
 };
 
 export default ({ pet }: IPresenters) => {
-  const [petsList, setPetsList] = useState<any[]>();
+  const loadPets = useCallback(async () => pet.getAllPets(), []);
 
-  const loadPets = useCallback(async () => {
-    await wait(3000);
-    const pets = await pet.getAllPets();
-
-    setPetsList(pets);
-  }, []);
-
-  useEffect(() => {
-    loadPets().catch(console.error);
-  }, []);
+  const {
+    error: { hasError, message, name },
+    isLoading,
+    response,
+  } = useDataLoader<Pet[]>(loadPets);
 
   return (
     <ScrollView>
       <ScreenContainer>
-        {!petsList && (
-          <>
-            <Text>Não tem Pets :(</Text>
-          </>
-        )}
-        {petsList?.map((pet) => {
-          return <PetCard key={`key-${pet.id}`} data={pet} />;
-        })}
+        <ErrorMessage error={{ hasError, message, name }} />
+        {isLoading && <Loader message="Estamos carregando seu gato..." />}
+        {response?.map((pet: Pet) => (
+          <PetCard key={`key-${pet.id}`} data={pet} />
+        ))}
       </ScreenContainer>
     </ScrollView>
   );

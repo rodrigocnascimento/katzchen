@@ -1,34 +1,53 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Button, ScrollView, View } from "react-native";
+import { Button, ScrollView, View, Text } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 import { HeroText } from "./styled";
 import { registerNewPetSchema } from "./validation";
 import { ScreenContainer } from "../screens.styled";
 
 import { RacePetListDTO } from "~/application/domain/dto/PetDTO";
+import { Pet } from "~/application/domain/entities/Pet";
 import DatePicker from "~/components/DatePicker";
 import ImageInput from "~/components/ImageInput";
 import Input from "~/components/Input";
 import RadioButton from "~/components/RadioButton";
 import SelectList from "~/components/SelectList";
 import { iconCreator } from "~/components/helpers/icon.creator";
+import ErrorMessage from "~/ui/components/Error";
+import CatLoader from "~/ui/components/Loader";
 import { IPresenters } from "~/ui/di/presenters";
+import { useDataLoader, useDataSubmit } from "~/ui/hooks/data";
 
 export default ({ pet }: IPresenters) => {
-  const [catRaceList, setCatRaceList] = useState<RacePetListDTO[]>([]);
+  const loadCatsRace = useCallback(async () => pet.getAllPetRacesByGenre(), []);
 
-  const loadCatsRace = useCallback(async () => {
-    const petRaces = await pet.getAllPetRacesByGenre();
+  const { response: catRaceList = [] } =
+    useDataLoader<RacePetListDTO[]>(loadCatsRace);
 
-    setCatRaceList(petRaces);
-  }, []);
+  const {
+    error: { hasError: hasErrorOnCreation, message: onCreationErrorMessage },
+    isSubmittingData,
+    response,
+    onSubmit,
+  } = useDataSubmit<Pet>();
 
   useEffect(() => {
-    loadCatsRace().catch(console.error);
-  }, []);
+    if (response) {
+      Toast.show({
+        type: "success",
+        text1: "Eba :3",
+        text2: `Você acabou de cadastrar ${response.name} :3`,
+      });
+    }
+  }, [response]);
+
+  // TODO resolver esse any :'(
+  const handleCreationForm = async (formData: any) =>
+    onSubmit(async () => pet.createPet(formData));
 
   const icon = useCallback(
     (name: string) => iconCreator(FontAwesome5, name, 32),
@@ -39,23 +58,20 @@ export default ({ pet }: IPresenters) => {
     resolver: yupResolver(registerNewPetSchema),
   });
 
-  // TODO resolver esse any :'(
-  const onSubmit = async (formData: any) => {
-    const createPet = await pet.createPet(formData);
-    if (!createPet) {
-      alert("Não cadastrou :(");
-    }
-
-    alert("Cadastrou :)");
-
-    return createPet;
-  };
-
   return (
     <ScrollView>
       <ScreenContainer>
-        <HeroText>Vamos registrar os dados do seu miau!</HeroText>
-        <View>
+        <ErrorMessage
+          error={{
+            hasError: hasErrorOnCreation,
+            message: onCreationErrorMessage,
+          }}
+        />
+        {isSubmittingData && (
+          <CatLoader message="Estamos enviando seu gato..." />
+        )}
+        <View style={[isSubmittingData && { display: "none" }]}>
+          <HeroText>Vamos registrar os dados do seu miau!</HeroText>
           <Controller
             control={control}
             render={({ field: { name }, fieldState }) => {
@@ -130,6 +146,7 @@ export default ({ pet }: IPresenters) => {
               <SelectList
                 icon={iconCreator(FontAwesome5, "cat", 32)}
                 selectedValue={value}
+                inputPlaceholder="Selecione uma opção :3"
                 options={catRaceList}
                 inputName={name}
                 fieldState={fieldState}
@@ -139,7 +156,7 @@ export default ({ pet }: IPresenters) => {
             name="race"
           />
 
-          <Button onPress={handleSubmit(onSubmit)} title="Submit!" />
+          <Button onPress={handleSubmit(handleCreationForm)} title="Submit!" />
         </View>
       </ScreenContainer>
     </ScrollView>

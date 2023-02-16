@@ -27,7 +27,7 @@ class BackgroundImageRotator {
   private static defaultImage = [
     {
       name: "purr.png",
-      image: require("../../assets/purr.png"),
+      image: require("~/ui/assets/purr.png"),
       style: {
         zIndex: 9,
         height: 180,
@@ -37,7 +37,7 @@ class BackgroundImageRotator {
     },
     {
       name: "purr-traveler-cat.png",
-      image: require("../../assets/purr-traveler-cat.png"),
+      image: require("~/ui/assets/purr-traveler-cat.png"),
       style: {
         zIndex: 9,
         height: 130,

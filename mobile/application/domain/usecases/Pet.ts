@@ -5,7 +5,7 @@ import IPetRepository from "../repositories/Pet";
 export class PetUseCase implements IPetRepository {
   constructor(private readonly repo: IPetRepository) {}
 
-  async createPet(pet: CreatePetDTO): Promise<boolean> {
+  async createPet(pet: CreatePetDTO): Promise<Pet> {
     return this.repo.createPet(pet);
   }
 

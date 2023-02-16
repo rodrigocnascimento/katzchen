@@ -2,7 +2,7 @@ import { CreatePetDTO, RacePetListDTO } from "../dto/PetDTO";
 import type { Pet } from "../entities/Pet";
 
 export default interface IPetRepository {
-  createPet: (pet: CreatePetDTO) => Promise<boolean>;
+  createPet: (pet: CreatePetDTO) => Promise<Pet>;
 
   getPet(): Promise<Pet>;
 
