@@ -14,8 +14,8 @@ import { AuthContext } from "../context/user/auth.context";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const clientId = "6sf63mvvbln2frrhoj0p0i9omm";
-const userPoolUrl = "https://katzchen.auth.us-east-1.amazoncognito.com";
+const clientId = "hackers:claroqueuedeleteiesseservico";
+const userPoolUrl = "https://hackers:claroqueuedeleteiesseservico.com";
 const redirectUri = makeRedirectUri();
 
 export default function AWSCognitoLogin() {
